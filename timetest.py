@@ -5,20 +5,20 @@ from pytz import timezone
 from datetime import datetime
 
 
-fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+fmt_utc = '%Y-%m-%d %H:%M:%S %Z%z'
+fmt = '%Y-%m-%d %H:%M:%S %Z'
 
 utc = datetime.now(timezone('UTC'))
-print(utc)
-oslo = utc.astimezone(timezone('Europe/Oslo'))
-print(oslo)
+print(utc.strftime(fmt_utc))
+oslo = utc.astimezone(timezone("Europe/Oslo"))
 print(oslo.strftime(fmt))
 
 
-
-utc_now = datetime.utcnow()
-oslo = timezone('Europe/Oslo')
-oslo_time = oslo.localize(utc_now)
-print(oslo_time)
+naive_now = datetime.now()
+oslo_tz = timezone("Europe/Oslo")
+oslo_time = oslo_tz.localize(naive_now)
 print(oslo_time.strftime(fmt))
-
+oslo_utc = oslo_time.astimezone(timezone('UTC'))
+# Should print UTC+0100 ?
+print(oslo_utc.strftime(fmt_utc))
 
